@@ -2,6 +2,10 @@ module Api
   class UsersController < ApplicationController
     wrap_parameters false
 
+    before_action :authenticate_request, only: %i[show update destroy]
+    before_action :set_user, only: %i[show update destroy]
+    before_action :authorize_owner, only: %i[show update destroy]
+
     def register
       user = User.create!(user_params)
 
@@ -11,7 +15,42 @@ module Api
       }, status: :created
     end
 
+    def show
+      render json: {
+        data: UserSerializer.render(@user)
+      }, status: :ok
+    end
+
+    def update
+      @user.update!(user_params)
+
+      render json: {
+        message: "Usuario actualizado correctamente",
+        data: UserSerializer.render(@user)
+      }, status: :ok
+    end
+
+    def destroy
+      @user.destroy!
+
+      head :no_content
+    end
+
     private
+
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def authorize_owner
+      return if current_user.id == @user.id
+
+      render_error(
+        :forbidden,
+        "Acceso denegado",
+        "No puedes consultar o modificar la cuenta de otro usuario"
+      )
+    end
 
     def user_params
       source =
@@ -45,7 +84,7 @@ module Api
         address: permitted[:address],
         phone_number: permitted[:phone_number].presence ||
                       permitted[:phoneNumber]
-      }
+      }.compact
     end
   end
 end
