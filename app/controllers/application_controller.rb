@@ -7,6 +7,10 @@ class ApplicationController < ActionController::API
   rescue_from ActionController::ParameterMissing, with: :render_bad_request
   rescue_from ActionController::BadRequest, with: :render_bad_request
 
+  rescue_from BusinessRuleError,
+            with: :render_business_rule_error
+
+  
   private
 
   def authenticate_request
@@ -99,4 +103,14 @@ class ApplicationController < ActionController::API
 
     render json: body, status: status
   end
+
+  def render_business_rule_error(error)
+    render json: {
+      error: {
+        message: error.message,
+        details: error.details
+      }
+    }, status: :unprocessable_content
+  end
+
 end
