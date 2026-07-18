@@ -9,3 +9,7 @@
 .env
 .env.local
 config/master.key
+
+# Archivos locales de la extensión Postman
+.postman/
+postman/.postman/
