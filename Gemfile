@@ -7,6 +7,10 @@ gem "pg", "~> 1.5"
 gem "puma", ">= 5.0"
 gem "bootsnap", require: false
 
+# Seguridad y autenticación
+gem "bcrypt", "~> 3.1"
+gem "jwt"
+
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
 end
