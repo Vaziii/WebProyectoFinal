@@ -153,11 +153,14 @@ module Receipts
         )
       end
 
-      if raw_item.respond_to?(:to_unsafe_h)
-        raw_item.to_unsafe_h
-      else
-        raw_item.to_h
-      end
+      hash =
+        if raw_item.respond_to?(:to_unsafe_h)
+          raw_item.to_unsafe_h
+        else
+          raw_item.to_h
+        end
+
+      hash.stringify_keys
     end
 
     def positive_integer(value)
