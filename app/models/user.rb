@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
+  
+  has_many :receipts,
+         dependent: :destroy
 
   before_validation :normalize_fields
 

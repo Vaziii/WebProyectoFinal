@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_18_180826) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_18_231527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,33 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_180826) do
     t.check_constraint "stock >= 0", name: "products_stock_non_negative"
   end
 
+  create_table "receipt_items", force: :cascade do |t|
+    t.bigint "receipt_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "unit_price", precision: 12, scale: 2, null: false
+    t.decimal "subtotal", precision: 12, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_receipt_items_on_product_id"
+    t.index ["receipt_id", "product_id"], name: "index_receipt_items_on_receipt_and_product", unique: true
+    t.index ["receipt_id"], name: "index_receipt_items_on_receipt_id"
+    t.check_constraint "quantity > 0", name: "receipt_items_quantity_positive"
+    t.check_constraint "subtotal > 0::numeric", name: "receipt_items_subtotal_positive"
+    t.check_constraint "unit_price > 0::numeric", name: "receipt_items_unit_price_positive"
+  end
+
+  create_table "receipts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.decimal "total", precision: 12, scale: 2, default: "0.0", null: false
+    t.integer "amount_of_items", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_receipts_on_user_id"
+    t.check_constraint "amount_of_items > 0", name: "receipts_amount_of_items_positive"
+    t.check_constraint "total >= 0::numeric", name: "receipts_total_non_negative"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", limit: 80, null: false
     t.string "last_name", limit: 80, null: false
@@ -49,4 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_180826) do
   end
 
   add_foreign_key "products", "categories"
+  add_foreign_key "receipt_items", "products"
+  add_foreign_key "receipt_items", "receipts"
+  add_foreign_key "receipts", "users"
 end

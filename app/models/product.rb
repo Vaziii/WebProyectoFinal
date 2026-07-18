@@ -1,6 +1,9 @@
 class Product < ApplicationRecord
   belongs_to :category, optional: true
 
+  has_many :receipt_items,
+         dependent: :restrict_with_error
+
   before_validation :normalize_name
 
   validates :name, presence: true, length: { maximum: 120 }
