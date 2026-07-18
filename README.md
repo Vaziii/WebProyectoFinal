@@ -1,9 +1,18 @@
-# Grupo 7 - API REST Rails: Products y Categories
+# Grupo 7 - API REST de E-commerce con Ruby on Rails
 
-Backend API en Ruby on Rails para la parte de productos, categorias y documentacion del proyecto de e-commerce.
+API REST desarrollada con Ruby on Rails en modo API y PostgreSQL. El sistema permite gestionar usuarios, autenticación mediante JWT, productos, categorías y posteriormente recibos de compra.
+
+El proyecto reproduce el backend de e-commerce solicitado para el Grupo 7, aplicando arquitectura modular, validaciones, cifrado de contraseñas, manejo centralizado de errores, documentación y pruebas.
 
 ## Alcance implementado
 
+- Registro de usuarios.
+- Inicio de sesión mediante JWT.
+- Contraseñas cifradas con BCrypt.
+- Consulta, actualización y eliminación segura de usuarios.
+- Control de acceso para impedir que un usuario modifique otra cuenta.
+- Manejo de tokens ausentes, inválidos y vencidos.
+- Pruebas automatizadas de usuarios, JWT y autorización.
 - Modelo `Product` con `name`, `description`, `price`, `stock` y `category_id`.
 - Modelo `Category` para clasificar productos.
 - CRUD completo de productos.
@@ -12,13 +21,16 @@ Backend API en Ruby on Rails para la parte de productos, categorias y documentac
 - Busqueda/filtros por texto, categoria, precio e inventario disponible.
 - Manejo centralizado de errores en JSON.
 - Migraciones para PostgreSQL.
-- Coleccion Postman en `postman/Grupo7_Products_Categories.postman_collection.json`.
+- Colección Postman completa en `postman/Grupo7_Ecommerce_API.postman_collection.json`.
+
 
 ## Requisitos
 
 - Ruby 3.2 o superior.
-- PostgreSQL.
+- Ruby on Rails 7.1.
+- PostgreSQL 17 o compatible.
 - Bundler.
+- Postman o la extensión de Postman para Visual Studio Code.
 
 ## Instalacion
 
@@ -26,28 +38,37 @@ Backend API en Ruby on Rails para la parte de productos, categorias y documentac
 bundle install
 ```
 
-Configura la base de datos con variables de entorno o deja los valores por defecto:
+### Variables de entorno
 
-```bash
-DB_HOST=localhost
+Copia el archivo `.env.example` como `.env` y configura tus valores locales.
+
+```env
+DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_USERNAME=postgres
-DB_PASSWORD=postgres
+DB_PASSWORD=your_postgresql_password
 DB_NAME=grupo7_ecommerce_development
+JWT_SECRET=generate_with_rails_secret
+```
+
+Para generar la clave JWT:
+
+```bash
+bundle exec rails secret
 ```
 
 Crear y migrar la base:
 
 ```bash
-rails db:create
-rails db:migrate
-rails db:seed
+bundle exec rails db:create
+bundle exec rails db:migrate
+bundle exec rails db:seed
 ```
 
 Ejecutar el servidor:
 
 ```bash
-rails server
+bundle exec rails server
 ```
 
 URL base local:
@@ -55,6 +76,149 @@ URL base local:
 ```text
 http://localhost:3000
 ```
+## Usuarios y autenticación
+
+### Registrar usuario
+
+```http
+POST /api/users/register
+```
+
+Body:
+
+```json
+{
+  "firstName": "Ana",
+  "lastName": "Perez",
+  "email": "ana@correo.com",
+  "password": "Clave123*",
+  "passwordConfirmation": "Clave123*",
+  "address": "Quito",
+  "phoneNumber": "0991234567"
+}
+```
+
+Respuesta esperada: `201 Created`.
+
+```json
+{
+  "message": "Usuario registrado correctamente",
+  "data": {
+    "userId": 1,
+    "firstName": "Ana",
+    "lastName": "Perez",
+    "email": "ana@correo.com",
+    "address": "Quito",
+    "phoneNumber": "0991234567"
+  }
+}
+```
+
+Las propiedades `password`, `passwordConfirmation` y `password_digest` nunca se devuelven en las respuestas HTTP.
+
+### Iniciar sesión
+
+```http
+POST /api/users/login
+```
+
+Body:
+
+```json
+{
+  "email": "ana@correo.com",
+  "password": "Clave123*"
+}
+```
+
+Respuesta esperada: `200 OK`.
+
+```json
+{
+  "message": "Inicio de sesión correcto",
+  "token": "JWT_GENERADO",
+  "user": {
+    "userId": 1,
+    "firstName": "Ana",
+    "lastName": "Perez",
+    "email": "ana@correo.com"
+  }
+}
+```
+
+### Utilizar el JWT
+
+Las rutas protegidas requieren el encabezado:
+
+```http
+Authorization: Bearer JWT_GENERADO
+```
+
+### Consultar perfil
+
+```http
+GET /api/users/:id
+```
+
+Requiere JWT. El usuario solamente puede consultar su propia cuenta.
+
+### Actualizar perfil
+
+```http
+PUT /api/users/:id
+```
+
+Ejemplo:
+
+```json
+{
+  "firstName": "Ana Maria",
+  "address": "Quito norte",
+  "phoneNumber": "0987654321"
+}
+```
+
+La actualización puede ser parcial.
+
+### Eliminar usuario
+
+```http
+DELETE /api/users/:id
+```
+
+Respuesta esperada:
+
+```http
+204 No Content
+```
+
+El usuario solamente puede eliminar su propia cuenta.
+
+## Validaciones de usuario
+
+- Nombre obligatorio y máximo de 80 caracteres.
+- Apellido obligatorio y máximo de 80 caracteres.
+- Correo obligatorio, válido y único.
+- El correo se almacena en minúsculas.
+- Contraseña mínima de 8 caracteres.
+- Confirmación de contraseña obligatoria y coincidente.
+- Teléfono opcional de entre 7 y 15 dígitos.
+- Dirección opcional.
+- Contraseña almacenada con BCrypt en `password_digest`.
+
+## Seguridad
+
+- Autenticación basada en JSON Web Token.
+- Token firmado con el algoritmo `HS256`.
+- Expiración del token después de 24 horas.
+- Contraseñas cifradas con BCrypt.
+- Credenciales excluidas de todas las respuestas JSON.
+- Rutas protegidas con `Authorization: Bearer`.
+- Respuesta `401 Unauthorized` para token ausente, inválido o vencido.
+- Respuesta `403 Forbidden` al intentar acceder a la cuenta de otro usuario.
+
+
+
 
 ## Endpoints de productos
 
@@ -183,6 +347,68 @@ Ejemplo de recurso inexistente:
   }
 }
 ```
+## Pruebas automatizadas
+
+Preparar la base de pruebas:
+
+```bash
+bundle exec rails db:test:prepare
+```
+
+Ejecutar todas las pruebas:
+
+```bash
+bundle exec rails test
+```
+
+Resultado obtenido para el módulo de usuarios:
+
+```text
+22 runs
+67 assertions
+0 failures
+0 errors
+0 skips
+```
+
+Las pruebas cubren:
+
+- Validaciones del modelo `User`.
+- Normalización del correo.
+- Cifrado BCrypt.
+- Generación y decodificación JWT.
+- Token inválido y vencido.
+- Registro.
+- Login.
+- Consulta protegida.
+- Actualización.
+- Eliminación.
+- Acceso sin token.
+- Acceso a la cuenta de otro usuario.
+
+## Colección Postman
+
+La colección completa se encuentra en:
+
+```text
+postman/Grupo7_Ecommerce_API.postman_collection.json
+```
+
+Contiene pruebas para:
+
+- Registro de usuario.
+- Login y almacenamiento automático del JWT.
+- Consulta y actualización del perfil.
+- Solicitud sin token.
+- Token inválido.
+- Eliminación mediante un usuario temporal.
+- Productos y categorías.
+
+La URL base utilizada es:
+
+```text
+http://localhost:3000
+```
 
 ## Sustentacion rapida de esta parte
 
@@ -192,3 +418,15 @@ Ejemplo de recurso inexistente:
 - Los controladores solo reciben parametros, llaman al modelo y devuelven JSON.
 - `ApplicationController` centraliza los errores para que las respuestas sean consistentes.
 - La busqueda y filtros estan en `GET /api/products`, como valor agregado.
+
+## Sustentación rápida de usuarios y seguridad
+
+- `User` representa a los usuarios registrados en el e-commerce.
+- Las contraseñas nunca se almacenan en texto plano; se cifran mediante BCrypt en `password_digest`.
+- El registro valida nombres, correo, contraseña, teléfono y duplicidad del correo.
+- El login compara la contraseña mediante `authenticate` y genera un token JWT.
+- El JWT contiene el identificador del usuario y una fecha de expiración.
+- Las rutas protegidas requieren el encabezado `Authorization: Bearer TOKEN`.
+- Un usuario solo puede consultar, actualizar o eliminar su propia cuenta.
+- `ApplicationController` centraliza los errores de autenticación, autorización y validación.
+- Las respuestas JSON nunca incluyen la contraseña ni `password_digest`.
