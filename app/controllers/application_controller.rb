@@ -66,7 +66,7 @@ class ApplicationController < ActionController::API
 
   def render_record_invalid(exception)
     render_error(
-      :unprocessable_entity,
+      :unprocessable_content,
       "Datos inválidos",
       exception.record.errors.to_hash(true)
     )
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::API
 
   def render_record_not_destroyed(exception)
     render_error(
-      :unprocessable_entity,
+      :unprocessable_content,
       "No se pudo eliminar el recurso",
       exception.record.errors.to_hash(true)
     )
