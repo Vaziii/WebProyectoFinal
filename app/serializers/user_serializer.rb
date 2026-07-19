@@ -5,6 +5,7 @@ class UserSerializer
       firstName: user.first_name,
       lastName: user.last_name,
       email: user.email,
+      role: user.role,
       address: user.address,
       phoneNumber: user.phone_number,
       createdAt: user.created_at,

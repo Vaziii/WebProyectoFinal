@@ -52,6 +52,16 @@ class ApplicationController < ActionController::API
     )
   end
 
+  def require_admin
+    return if current_user&.admin?
+
+    render_error(
+      :forbidden,
+      "Acceso denegado",
+      "Solo un administrador puede realizar esta accion"
+    )
+  end
+
   def bearer_token
     scheme, token = request.headers["Authorization"].to_s.split(" ", 2)
 

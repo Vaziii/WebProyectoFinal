@@ -1,5 +1,7 @@
 module Api
   class CategoriesController < ApplicationController
+    before_action :authenticate_request, only: %i[create update destroy]
+    before_action :require_admin, only: %i[create update destroy]
     before_action :set_category, only: %i[show update destroy]
 
     def index

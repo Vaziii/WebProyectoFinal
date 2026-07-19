@@ -26,3 +26,14 @@ Product.find_or_create_by!(name: "Termo acero") do |product|
   product.stock = 20
   product.category = home
 end
+
+admin = User.find_or_initialize_by(email: ENV.fetch("ADMIN_EMAIL", "admin@grupo7.com"))
+admin.assign_attributes(
+  first_name: "Administrador",
+  last_name: "Grupo 7",
+  address: "Administracion",
+  phone_number: "0999999999",
+  role: "admin"
+)
+admin.password = ENV.fetch("ADMIN_PASSWORD", "Admin123*") if admin.new_record? || ENV["ADMIN_PASSWORD"].present?
+admin.save!

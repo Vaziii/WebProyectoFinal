@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_18_231527) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_19_183000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,7 +72,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_231527) do
     t.string "phone_number", limit: 20
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "usuario", null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
+    t.index ["role"], name: "index_users_on_role"
+    t.check_constraint "role::text = ANY (ARRAY['usuario'::character varying, 'admin'::character varying]::text[])", name: "users_role_valid"
   end
 
   add_foreign_key "products", "categories"

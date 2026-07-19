@@ -13,3 +13,13 @@ config/master.key
 # Archivos locales de la extensión Postman
 .postman/
 postman/.postman/
+postman/collections/
+postman/globals/
+
+# Frontend
+node_modules/
+dist/
+FrontendProyecto/node_modules/
+FrontendProyecto/dist/
+FrontendProyecto/.env
+FrontendProyecto/.env.local

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  ROLES = %w[usuario admin].freeze
+
   has_secure_password
   
   has_many :receipts,
@@ -43,6 +45,12 @@ class User < ApplicationRecord
               message: "debe contener entre 7 y 15 dígitos"
             },
             allow_blank: true
+
+  validates :role, inclusion: { in: ROLES }
+
+  def admin?
+    role == "admin"
+  end
 
   private
 
