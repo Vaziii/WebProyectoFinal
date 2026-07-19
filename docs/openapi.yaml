@@ -1,0 +1,719 @@
+openapi: 3.0.3
+
+info:
+  title: Grupo 7 - API REST de E-commerce
+  version: 1.0.0
+  description: |
+    API REST desarrollada con Ruby on Rails, ActiveRecord y PostgreSQL.
+    Incluye usuarios con JWT, productos, categorías y recibos de compra.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+tags:
+  - name: Usuarios
+  - name: Productos
+  - name: Categorías
+  - name: Recibos
+
+paths:
+  /api/users/register:
+    post:
+      tags: [Usuarios]
+      summary: Registrar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+            example:
+              firstName: Ana
+              lastName: Perez
+              email: ana@correo.com
+              password: Clave123*
+              passwordConfirmation: Clave123*
+              address: Quito
+              phoneNumber: "0991234567"
+      responses:
+        '201':
+          description: Usuario registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegisterResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/users/login:
+    post:
+      tags: [Usuarios]
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: ana@correo.com
+              password: Clave123*
+      responses:
+        '200':
+          description: Inicio de sesión correcto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Usuarios]
+      summary: Consultar la cuenta propia
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Usuarios]
+      summary: Actualizar la cuenta propia
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      tags: [Usuarios]
+      summary: Eliminar la cuenta propia
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Usuario eliminado
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/products:
+    get:
+      tags: [Productos]
+      summary: Listar y filtrar productos
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string }
+          description: Buscar por nombre o descripción
+        - name: search
+          in: query
+          schema: { type: string }
+          description: Alias de q
+        - name: category_id
+          in: query
+          schema: { type: integer, minimum: 1 }
+        - name: min_price
+          in: query
+          schema: { type: number, minimum: 0 }
+        - name: max_price
+          in: query
+          schema: { type: number, minimum: 0 }
+        - name: in_stock
+          in: query
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+    post:
+      tags: [Productos]
+      summary: Crear producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequestWrapper'
+            example:
+              product:
+                name: Teclado mecánico
+                description: Teclado USB con switches mecánicos
+                price: 49.99
+                stock: 15
+                category_id: 1
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/products/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Productos]
+      summary: Consultar producto
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Productos]
+      summary: Actualizar producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequestWrapper'
+      responses:
+        '200':
+          description: Producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDataResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      tags: [Productos]
+      summary: Eliminar producto
+      responses:
+        '204':
+          description: Producto eliminado
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/categories:
+    get:
+      tags: [Categorías]
+      summary: Listar categorías
+      responses:
+        '200':
+          description: Lista de categorías
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+    post:
+      tags: [Categorías]
+      summary: Crear categoría
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequestWrapper'
+      responses:
+        '201':
+          description: Categoría creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDataResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/categories/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Categorías]
+      summary: Consultar categoría
+      responses:
+        '200':
+          description: Categoría encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDataResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    put:
+      tags: [Categorías]
+      summary: Actualizar categoría
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequestWrapper'
+      responses:
+        '200':
+          description: Categoría actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDataResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      tags: [Categorías]
+      summary: Eliminar categoría
+      responses:
+        '204':
+          description: Categoría eliminada
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/receipts:
+    get:
+      tags: [Recibos]
+      summary: Listar recibos del usuario autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista de recibos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    post:
+      tags: [Recibos]
+      summary: Crear recibo y descontar stock
+      description: El usuario se obtiene desde el JWT y el total se calcula en el backend.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReceiptRequest'
+            example:
+              items:
+                - productId: 1
+                  quantity: 2
+                - productId: 2
+                  quantity: 1
+      responses:
+        '201':
+          description: Recibo creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateReceiptResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/BusinessRuleError'
+
+  /api/receipts/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags: [Recibos]
+      summary: Consultar recibo propio
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Recibo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptDataResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    delete:
+      tags: [Recibos]
+      summary: Eliminar recibo y restaurar stock
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Recibo eliminado
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/receipts/user/{userId}:
+    get:
+      tags: [Recibos]
+      summary: Listar recibos de un usuario
+      description: El userId debe coincidir con el usuario contenido en el JWT.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: integer, minimum: 1 }
+      responses:
+        '200':
+          description: Lista de recibos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+
+  responses:
+    BadRequestError:
+      description: Solicitud inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Token ausente, inválido o vencido
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              message: No autorizado
+              details: Debes enviar un token en el encabezado Authorization
+    ForbiddenError:
+      description: Acceso denegado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Datos inválidos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BusinessRuleError:
+      description: Regla de negocio incumplida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            stockInsuficiente:
+              value:
+                error:
+                  message: Stock insuficiente
+                  details:
+                    productId: 1
+                    productName: Teclado mecánico
+                    requestedQuantity: 100
+                    availableStock: 10
+            carritoVacio:
+              value:
+                error:
+                  message: Datos inválidos
+                  details:
+                    items:
+                      - Debe incluir al menos un producto
+
+  schemas:
+    User:
+      type: object
+      properties:
+        userId: { type: integer, example: 1 }
+        firstName: { type: string, example: Ana }
+        lastName: { type: string, example: Perez }
+        email: { type: string, format: email, example: ana@correo.com }
+        address: { type: string, nullable: true, example: Quito }
+        phoneNumber: { type: string, nullable: true, example: "0991234567" }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    UserRegisterRequest:
+      type: object
+      required: [firstName, lastName, email, password, passwordConfirmation]
+      properties:
+        firstName: { type: string, maxLength: 80 }
+        lastName: { type: string, maxLength: 80 }
+        email: { type: string, format: email }
+        password: { type: string, format: password, minLength: 8 }
+        passwordConfirmation: { type: string, format: password, minLength: 8 }
+        address: { type: string, nullable: true }
+        phoneNumber:
+          type: string
+          pattern: '^\d{7,15}$'
+          nullable: true
+
+    UserUpdateRequest:
+      type: object
+      properties:
+        firstName: { type: string, maxLength: 80 }
+        lastName: { type: string, maxLength: 80 }
+        email: { type: string, format: email }
+        password: { type: string, format: password, minLength: 8 }
+        passwordConfirmation: { type: string, format: password, minLength: 8 }
+        address: { type: string, nullable: true }
+        phoneNumber: { type: string, nullable: true }
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+
+    UserRegisterResponse:
+      type: object
+      properties:
+        message: { type: string, example: Usuario registrado correctamente }
+        data: { $ref: '#/components/schemas/User' }
+
+    UserUpdateResponse:
+      type: object
+      properties:
+        message: { type: string, example: Usuario actualizado correctamente }
+        data: { $ref: '#/components/schemas/User' }
+
+    UserDataResponse:
+      type: object
+      properties:
+        data: { $ref: '#/components/schemas/User' }
+
+    LoginResponse:
+      type: object
+      properties:
+        message: { type: string, example: Inicio de sesión correcto }
+        token: { type: string, example: TOKEN_JWT }
+        user: { $ref: '#/components/schemas/User' }
+
+    Category:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: Tecnología }
+        description: { type: string, nullable: true }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    CategoryRequest:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, maxLength: 80 }
+        description: { type: string, maxLength: 500, nullable: true }
+
+    CategoryRequestWrapper:
+      type: object
+      required: [category]
+      properties:
+        category: { $ref: '#/components/schemas/CategoryRequest' }
+
+    CategoryDataResponse:
+      type: object
+      properties:
+        data: { $ref: '#/components/schemas/Category' }
+
+    CategoryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Category' }
+
+    Product:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: Teclado mecánico }
+        description: { type: string, nullable: true }
+        price: { type: string, example: "49.99" }
+        stock: { type: integer, example: 15 }
+        category:
+          allOf:
+            - $ref: '#/components/schemas/Category'
+          nullable: true
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+
+    ProductRequest:
+      type: object
+      required: [name, price, stock]
+      properties:
+        name: { type: string, maxLength: 120 }
+        description: { type: string, maxLength: 1000, nullable: true }
+        price: { type: number, minimum: 0, exclusiveMinimum: true }
+        stock: { type: integer, minimum: 0 }
+        category_id: { type: integer, minimum: 1, nullable: true }
+
+    ProductRequestWrapper:
+      type: object
+      required: [product]
+      properties:
+        product: { $ref: '#/components/schemas/ProductRequest' }
+
+    ProductDataResponse:
+      type: object
+      properties:
+        data: { $ref: '#/components/schemas/Product' }
+
+    ProductListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Product' }
+        filters:
+          type: object
+          additionalProperties: true
+
+    ReceiptItemRequest:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId: { type: integer, minimum: 1, example: 1 }
+        quantity: { type: integer, minimum: 1, example: 2 }
+
+    CreateReceiptRequest:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/ReceiptItemRequest' }
+
+    ReceiptItem:
+      type: object
+      properties:
+        receiptItemId: { type: integer, example: 1 }
+        productId: { type: integer, example: 1 }
+        productName: { type: string, example: Teclado mecánico }
+        quantity: { type: integer, example: 2 }
+        unitPrice: { type: string, example: "49.99" }
+        subtotal: { type: string, example: "99.98" }
+
+    Receipt:
+      type: object
+      properties:
+        receiptId: { type: integer, example: 1 }
+        userId: { type: integer, example: 1 }
+        total: { type: string, example: "119.98" }
+        amountOfItems: { type: integer, example: 3 }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/ReceiptItem' }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    CreateReceiptResponse:
+      type: object
+      properties:
+        message: { type: string, example: Recibo creado correctamente }
+        data: { $ref: '#/components/schemas/Receipt' }
+
+    ReceiptDataResponse:
+      type: object
+      properties:
+        data: { $ref: '#/components/schemas/Receipt' }
+
+    ReceiptListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Receipt' }
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [message]
+          properties:
+            message: { type: string, example: Datos inválidos }
+            details:
+              nullable: true
+              oneOf:
+                - type: string
+                - type: object
+                  additionalProperties: true
+                - type: array
+                  items: {}
