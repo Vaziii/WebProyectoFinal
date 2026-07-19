@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{base_url}}/api/products/{{product_id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "product": {
+        "name": "Teclado mecanico RGB",
+        "price": 54.99,
+        "stock": 12
+      }
+    }
+order: 5000

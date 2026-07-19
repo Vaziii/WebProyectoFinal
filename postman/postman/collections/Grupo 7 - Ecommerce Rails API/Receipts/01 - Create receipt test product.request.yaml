@@ -1,0 +1,90 @@
+$kind: http-request
+name: 01 - Create receipt test product
+url: "{{base_url}}/api/products"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"product\": {\r
+
+    \    \"name\": \"Producto de prueba para recibos\",\r
+
+    \    \"description\": \"Producto creado desde Postman para probar compras.\",\r
+
+    \    \"price\": 12.50,\r
+
+    \    \"stock\": 10\r
+
+    \  }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 201\", function () {\r
+
+      \  pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Producto creado correctamente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.data.id).to.exist;\r
+
+      \  pm.expect(json.data.name).to.eql(\r
+
+      \    \"Producto de prueba para recibos\"\r
+
+      \  );\r
+
+      \  pm.expect(Number(json.data.price)).to.eql(12.5);\r
+
+      \  pm.expect(json.data.stock).to.eql(10);\r
+
+      });\r
+
+      \r
+
+      if (pm.response.code === 201) {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"receipt_product_id\",\r
+
+      \    String(json.data.id)\r
+
+      \  );\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"receipt_product_price\",\r
+
+      \    String(json.data.price)\r
+
+      \  );\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"receipt_product_initial_stock\",\r
+
+      \    String(json.data.stock)\r
+
+      \  );\r
+
+      }"
+    language: text/javascript
+order: 1784438085767

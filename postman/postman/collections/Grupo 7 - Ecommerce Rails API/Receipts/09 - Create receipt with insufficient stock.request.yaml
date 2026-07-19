@@ -1,0 +1,90 @@
+$kind: http-request
+name: 09 - Create receipt with insufficient stock
+url: "{{base_url}}/api/receipts"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"items\": [\r
+
+    \    {\r
+
+    \      \"productId\": {{receipt_product_id}},\r
+
+    \      \"quantity\": 999\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 422\", function () {\r
+
+      \  pm.response.to.have.status(422);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Rechaza la compra por stock insuficiente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.error.message).to.eql(\r
+
+      \    \"Stock insuficiente\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details.productId).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"receipt_product_id\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details.requestedQuantity).to.eql(\r
+
+      \    999\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details.availableStock).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"stock_after_purchase\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4499994949546312

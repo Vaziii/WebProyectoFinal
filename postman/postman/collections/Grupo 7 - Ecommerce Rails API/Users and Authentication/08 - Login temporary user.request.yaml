@@ -1,0 +1,14 @@
+$kind: http-request
+name: 08 - Login temporary user
+url: "{{base_url}}/api/users/login"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"email\": \"temporal.postman@correo.com\",\r
+
+    \  \"password\": \"Temporal123*\"\r
+
+    }"
+order: 4499262636282833

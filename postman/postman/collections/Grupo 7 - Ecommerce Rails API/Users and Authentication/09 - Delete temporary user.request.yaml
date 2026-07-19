@@ -1,0 +1,28 @@
+$kind: http-request
+name: 09 - Delete temporary user
+url: "{{base_url}}/api/users/{{temp_user_id}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{temp_token}}"
+scripts:
+  - type: beforeRequest
+    code: ""
+    language: text/javascript
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 204\", function () {\r
+
+      \  pm.response.to.have.status(204);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La respuesta no tiene contenido\", function () {\r
+
+      \  pm.expect(pm.response.text()).to.eql(\"\");\r
+
+      });"
+    language: text/javascript
+order: 4503234361130763

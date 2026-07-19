@@ -1,0 +1,37 @@
+$kind: http-request
+name: 07 - List receipts without token
+url: 07 - List receipts without token
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 401\", function () {\r
+
+      \  pm.response.to.have.status(401);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Rechaza la solicitud sin JWT\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.error.message).to.eql(\r
+
+      \    \"No autorizado\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details).to.include(\r
+
+      \    \"Authorization\"\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4496147380362597

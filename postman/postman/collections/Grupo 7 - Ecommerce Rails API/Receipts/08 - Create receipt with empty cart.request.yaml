@@ -1,0 +1,52 @@
+$kind: http-request
+name: 08 - Create receipt with empty cart
+url: "{{base_url}}/api/receipts"
+method: POST
+body:
+  type: json
+  content: "{\r\n  \"items\": []\r\n}"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 422\", function () {\r
+
+      \  pm.response.to.have.status(422);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Rechaza un carrito vacío\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.error.message).to.eql(\r
+
+      \    \"Datos inválidos\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details.items).to.be.an(\r
+
+      \    \"array\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details.items[0]).to.include(\r
+
+      \    \"al menos un producto\"\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4499737706606410

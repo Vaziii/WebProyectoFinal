@@ -1,0 +1,81 @@
+$kind: http-request
+name: 05 - List my receipts
+url: "{{base_url}}/api/receipts"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Devuelve una lista de recibos\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.data).to.be.an(\"array\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La lista contiene el recibo creado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const receiptId = Number(\r
+
+      \    pm.collectionVariables.get(\"receipt_id\")\r
+
+      \  );\r
+
+      \r
+
+      \  const receiptIds = json.data.map(function (receipt) {\r
+
+      \    return receipt.receiptId;\r
+
+      \  });\r
+
+      \r
+
+      \  pm.expect(receiptIds).to.include(receiptId);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Los recibos pertenecen al usuario autenticado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const userId = Number(\r
+
+      \    pm.collectionVariables.get(\"user_id\")\r
+
+      \  );\r
+
+      \r
+
+      \  json.data.forEach(function (receipt) {\r
+
+      \    pm.expect(receipt.userId).to.eql(userId);\r
+
+      \  });\r
+
+      });"
+    language: text/javascript
+order: 4398603170896036

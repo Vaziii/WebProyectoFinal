@@ -1,0 +1,40 @@
+$kind: http-request
+url: "{{base_url}}/api/products/{{receipt_product_id}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El stock no cambió después del error\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const stockAfterPurchase = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"stock_after_purchase\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.stock).to.eql(\r
+
+      \    stockAfterPurchase\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4503496214061521

@@ -1,0 +1,41 @@
+$kind: http-request
+name: 06 - Get profile with invalid token
+url: "{{base_url}}/api/users/{{user_id}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: token-invalido
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 401\", function () {\r
+
+      \  pm.response.to.have.status(401);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Detecta un token inválido\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.error.message).to.eql(\r
+
+      \    \"No autorizado\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.error.details).to.eql(\r
+
+      \    \"El token es inválido\"\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4497345995032770

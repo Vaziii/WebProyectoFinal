@@ -1,0 +1,82 @@
+$kind: http-request
+name: 04 - Update user profile
+url: "{{base_url}}/api/users/{{user_id}}"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"firstName\": \"Scarlett Maria\",\r
+
+    \  \"address\": \"Quito norte\",\r
+
+    \  \"phoneNumber\": \"0987654321\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Usuario actualizado correctamente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.message).to.eql(\r
+
+      \    \"Usuario actualizado correctamente\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.firstName).to.eql(\r
+
+      \    \"Scarlett Maria\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.address).to.eql(\r
+
+      \    \"Quito norte\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.phoneNumber).to.eql(\r
+
+      \    \"0987654321\"\r
+
+      \  );\r
+
+      });\r
+
+      \r
+
+      pm.test(\"No expone la contraseña\", function () {\r
+
+      \  const responseText = pm.response.text();\r
+
+      \r
+
+      \  pm.expect(responseText).to.not.include(\"password_digest\");\r
+
+      \  pm.expect(responseText).to.not.include(\"Clave123*\");\r
+
+      });"
+    language: text/javascript
+order: 4473862634512005

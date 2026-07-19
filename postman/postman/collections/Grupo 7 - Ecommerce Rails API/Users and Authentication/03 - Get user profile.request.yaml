@@ -1,0 +1,53 @@
+$kind: http-request
+name: 03 - Get user profile
+url: "{{base_url}}/api/users/{{user_id}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Devuelve el perfil del usuario autenticado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const expectedUserId = Number(\r
+
+      \    pm.collectionVariables.get(\"user_id\")\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.userId).to.eql(expectedUserId);\r
+
+      \  pm.expect(json.data.email).to.exist;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"No expone la contraseña\", function () {\r
+
+      \  const responseText = pm.response.text();\r
+
+      \r
+
+      \  pm.expect(responseText).to.not.include(\"password\");\r
+
+      \  pm.expect(responseText).to.not.include(\"password_digest\");\r
+
+      });"
+    language: text/javascript
+order: 4421367217964838

@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base_url}}/api/categories"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "category": {
+        "name": "Tecnologia",
+        "description": "Productos electronicos y accesorios."
+      }
+    }
+order: 1000

@@ -1,0 +1,41 @@
+$kind: http-request
+name: 12 - Verify stock restored
+url: "{{base_url}}/api/products/{{receipt_product_id}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El stock fue restaurado al eliminar el recibo\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const initialStock = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"receipt_product_initial_stock\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.stock).to.eql(\r
+
+      \    initialStock\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4503580042926903

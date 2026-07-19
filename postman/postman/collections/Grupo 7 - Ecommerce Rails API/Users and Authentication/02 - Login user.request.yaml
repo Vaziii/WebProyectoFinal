@@ -1,0 +1,68 @@
+$kind: http-request
+name: 02 - Login user
+url: "{{base_url}}/api/users/login"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"email\": \"scarlett.postman@correo.com\",\r
+
+    \  \"password\": \"Clave123*\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Inicio de sesión correcto\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.message).to.eql(\r
+
+      \    \"Inicio de sesión correcto\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.token).to.exist;\r
+
+      \  pm.expect(json.user.userId).to.exist;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La contraseña no aparece en la respuesta\", function () {\r
+
+      \  const responseText = pm.response.text();\r
+
+      \r
+
+      \  pm.expect(responseText).to.not.include(\"password_digest\");\r
+
+      \  pm.expect(responseText).to.not.include(\"Clave123*\");\r
+
+      });\r
+
+      \r
+
+      const json = pm.response.json();\r
+
+      \r
+
+      pm.collectionVariables.set(\"token\", json.token);\r
+
+      pm.collectionVariables.set(\"user_id\", json.user.userId);"
+    language: text/javascript
+order: 3506014909375891

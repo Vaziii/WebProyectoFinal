@@ -1,0 +1,190 @@
+$kind: http-request
+name: 02 - Create receipt
+url: "{{base_url}}/api/receipts"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"userId\": 999999,\r
+
+    \  \"total\": \"0.01\",\r
+
+    \  \"items\": [\r
+
+    \    {\r
+
+    \      \"productId\": {{receipt_product_id}},\r
+
+    \      \"quantity\": 2\r
+
+    \    }\r
+
+    \  ]\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 201\", function () {\r
+
+      \  pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Recibo creado correctamente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.message).to.eql(\r
+
+      \    \"Recibo creado correctamente\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.receiptId).to.exist;\r
+
+      \r
+
+      \  pm.expect(json.data.userId).to.eql(\r
+
+      \    Number(pm.collectionVariables.get(\"user_id\"))\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.amountOfItems).to.eql(2);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El total fue calculado por el backend\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const productPrice = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"receipt_product_price\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  const expectedTotal = productPrice * 2;\r
+
+      \r
+
+      \  pm.expect(Number(json.data.total)).to.eql(\r
+
+      \    expectedTotal\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(Number(json.data.total)).to.not.eql(\r
+
+      \    0.01\r
+
+      \  );\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El detalle contiene precio y subtotal correctos\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \  const item = json.data.items[0];\r
+
+      \r
+
+      \  const productId = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"receipt_product_id\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  const productPrice = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"receipt_product_price\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(item.productId).to.eql(productId);\r
+
+      \  pm.expect(item.quantity).to.eql(2);\r
+
+      \  pm.expect(Number(item.unitPrice)).to.eql(\r
+
+      \    productPrice\r
+
+      \  );\r
+
+      \  pm.expect(Number(item.subtotal)).to.eql(\r
+
+      \    productPrice * 2\r
+
+      \  );\r
+
+      });\r
+
+      \r
+
+      if (pm.response.code === 201) {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"receipt_id\",\r
+
+      \    String(json.data.receiptId)\r
+
+      \  );\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"receipt_total\",\r
+
+      \    String(json.data.total)\r
+
+      \  );\r
+
+      }"
+    language: text/javascript
+order: 885406448639294

@@ -1,0 +1,78 @@
+$kind: http-request
+name: 03 - Verify stock decreased
+url: "{{base_url}}/api/products/{{receipt_product_id}}"
+method: GET
+scripts:
+  - type: beforeRequest
+    code: ""
+    language: text/javascript
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El stock fue descontado automáticamente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  const initialStock = Number(\r
+
+      \    pm.collectionVariables.get(\r
+
+      \      \"receipt_product_initial_stock\"\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.id).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"receipt_product_id\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.stock).to.eql(\r
+
+      \    initialStock - 2\r
+
+      \  );\r
+
+      });\r
+
+      \r
+
+      if (pm.response.code === 200) {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"stock_after_purchase\",\r
+
+      \    String(json.data.stock)\r
+
+      \  );\r
+
+      }"
+    language: text/javascript
+order: 4082402072915946

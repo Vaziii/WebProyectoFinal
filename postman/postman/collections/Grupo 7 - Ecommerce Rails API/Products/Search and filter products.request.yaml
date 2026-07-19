@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{base_url}}/api/products?q=teclado&min_price=10&max_price=100&in_stock=true"
+method: GET
+queryParams:
+  q: teclado
+  min_price: "10"
+  max_price: "100"
+  in_stock: "true"
+order: 3000

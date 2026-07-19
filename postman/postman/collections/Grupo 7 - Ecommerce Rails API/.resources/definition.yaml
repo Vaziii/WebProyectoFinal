@@ -1,0 +1,16 @@
+$kind: collection
+name: Grupo 7 - Ecommerce Rails API
+description: ""
+variables:
+  base_url: http://localhost:3000
+  category_id: "1"
+  token: ""
+  user_id: ""
+  temp_user_id: ""
+  temp_token: ""
+  receipt_product_id: ""
+  receipt_product_price: ""
+  receipt_product_initial_stock: ""
+  receipt_id: ""
+  receipt_total: ""
+  stock_after_purchase: ""

@@ -1,0 +1,79 @@
+$kind: http-request
+name: 04 - Get receipt by id
+url: "{{base_url}}/api/receipts/{{receipt_id}}"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 200\", function () {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Consulta el recibo creado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.data.receiptId).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"receipt_id\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.userId).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"user_id\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(Number(json.data.total)).to.eql(\r
+
+      \    Number(\r
+
+      \      pm.collectionVariables.get(\r
+
+      \        \"receipt_total\"\r
+
+      \      )\r
+
+      \    )\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.items).to.be.an(\"array\");\r
+
+      \  pm.expect(json.data.items.length).to.eql(1);\r
+
+      });"
+    language: text/javascript
+order: 4382652840227974

@@ -1,0 +1,60 @@
+$kind: http-request
+name: 07 - Register temporary user
+url: "{{base_url}}/api/users/register"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"firstName\": \"Usuario\",\r
+
+    \  \"lastName\": \"Temporal\",\r
+
+    \  \"email\": \"temporal.postman@correo.com\",\r
+
+    \  \"password\": \"Temporal123*\",\r
+
+    \  \"passwordConfirmation\": \"Temporal123*\",\r
+
+    \  \"address\": \"Quito\",\r
+
+    \  \"phoneNumber\": \"0981111111\"\r
+
+    }"
+scripts:
+  - type: beforeRequest
+    code: "pm.test(\"Estado HTTP 201\", function () {\r
+
+      \  pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Usuario temporal registrado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.data.userId).to.exist;\r
+
+      \  pm.expect(json.data.email).to.eql(\r
+
+      \    \"temporal.postman@correo.com\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.collectionVariables.set(\r
+
+      \    \"temp_user_id\",\r
+
+      \    json.data.userId\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4498970306541462

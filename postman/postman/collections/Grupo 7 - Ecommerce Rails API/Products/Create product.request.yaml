@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base_url}}/api/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "product": {
+        "name": "Teclado mecanico",
+        "description": "Teclado USB con switches mecanicos.",
+        "price": 49.99,
+        "stock": 15,
+        "category_id": {{category_id}}
+      }
+    }
+order: 1000

@@ -1,0 +1,72 @@
+$kind: http-request
+name: 01 - Register user
+url: "{{base_url}}/api/users/register"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"firstName\": \"Scarlett\",\r
+
+    \  \"lastName\": \"Jarrin\",\r
+
+    \  \"email\": \"scarlett.postman@correo.com\",\r
+
+    \  \"password\": \"Clave123*\",\r
+
+    \  \"passwordConfirmation\": \"Clave123*\",\r
+
+    \  \"address\": \"Quito\",\r
+
+    \  \"phoneNumber\": \"0991112233\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 201\", function () {\r
+
+      \  pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Usuario registrado correctamente\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.message).to.eql(\r
+
+      \    \"Usuario registrado correctamente\"\r
+
+      \  );\r
+
+      \r
+
+      \  pm.expect(json.data.userId).to.exist;\r
+
+      \  pm.expect(json.data.email).to.eql(\r
+
+      \    \"scarlett.postman@correo.com\"\r
+
+      \  );\r
+
+      });\r
+
+      \r
+
+      pm.test(\"La contraseña no aparece en la respuesta\", function () {\r
+
+      \  const responseText = pm.response.text();\r
+
+      \r
+
+      \  pm.expect(responseText).to.not.include(\"password_digest\");\r
+
+      \  pm.expect(responseText).to.not.include(\"Clave123*\");\r
+
+      });"
+    language: text/javascript
+order: 1784437087197

@@ -1,0 +1,36 @@
+$kind: http-request
+name: 13 - Get deleted receipt
+url: "{{base_url}}/api/receipts/{{receipt_id}}"
+method: GET
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Estado HTTP 404\", function () {\r
+
+      \  pm.response.to.have.status(404);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"El recibo fue eliminado\", function () {\r
+
+      \  const json = pm.response.json();\r
+
+      \r
+
+      \  pm.expect(json.error.message).to.eql(\r
+
+      \    \"Recurso no encontrado\"\r
+
+      \  );\r
+
+      });"
+    language: text/javascript
+order: 4503597720310451
