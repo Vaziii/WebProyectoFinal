@@ -1,22 +1,11 @@
 {
   "info": {
-    "name": "Grupo 7 - Products y Categories API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_postman_id": "a88d9006-8f36-42eb-a427-775c98e13a1b",
+    "name": "Grupo 7 - Ecommerce Rails API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56390160",
+    "_collection_link": "https://go.postman.co/collection/56390160-a88d9006-8f36-42eb-a427-775c98e13a1b?source=collection_link"
   },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:3000"
-    },
-    {
-      "key": "product_id",
-      "value": "1"
-    },
-    {
-      "key": "category_id",
-      "value": "1"
-    }
-  ],
   "item": [
     {
       "name": "Categories",
@@ -31,26 +20,64 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/api/categories",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"category\": {\n    \"name\": \"Tecnologia\",\n    \"description\": \"Productos electronicos y accesorios.\"\n  }\n}"
+              "raw": "{\n  \"category\": {\n    \"name\": \"Tecnologia\",\n    \"description\": \"Productos electronicos y accesorios.\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "List categories",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/categories"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Get category by id",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/categories/{{category_id}}"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/categories/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "{{category_id}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Update category",
@@ -62,19 +89,47 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/api/categories/{{category_id}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"category\": {\n    \"description\": \"Productos electronicos actualizados.\"\n  }\n}"
+              "raw": "{\n  \"category\": {\n    \"description\": \"Productos electronicos actualizados.\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/categories/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "{{category_id}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete category",
           "request": {
             "method": "DELETE",
-            "url": "{{base_url}}/api/categories/{{category_id}}"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/categories/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "{{category_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -91,33 +146,100 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/api/products",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"product\": {\n    \"name\": \"Teclado mecanico\",\n    \"description\": \"Teclado USB con switches mecanicos.\",\n    \"price\": 49.99,\n    \"stock\": 15,\n    \"category_id\": {{category_id}}\n  }\n}"
+              "raw": "{\n  \"product\": {\n    \"name\": \"Teclado mecanico\",\n    \"description\": \"Teclado USB con switches mecanicos.\",\n    \"price\": 49.99,\n    \"stock\": 15,\n    \"category_id\": {{category_id}}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "List products",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/products"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Search and filter products",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/products?q=teclado&min_price=10&max_price=100&in_stock=true"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products?q=teclado&min_price=10&max_price=100&in_stock=true",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "teclado"
+                },
+                {
+                  "key": "min_price",
+                  "value": "10"
+                },
+                {
+                  "key": "max_price",
+                  "value": "100"
+                },
+                {
+                  "key": "in_stock",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Get product by id",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/products/{{product_id}}"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/{{product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{product_id}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Update product",
@@ -129,21 +251,959 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/api/products/{{product_id}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"product\": {\n    \"name\": \"Teclado mecanico RGB\",\n    \"price\": 54.99,\n    \"stock\": 12\n  }\n}"
+              "raw": "{\n  \"product\": {\n    \"name\": \"Teclado mecanico RGB\",\n    \"price\": 54.99,\n    \"stock\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products/{{product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{product_id}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete product",
           "request": {
             "method": "DELETE",
-            "url": "{{base_url}}/api/products/{{product_id}}"
-          }
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/{{product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{product_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
+    },
+    {
+      "name": "Users and Authentication",
+      "item": [
+        {
+          "name": "01 - Register user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 201\", function () {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Usuario registrado correctamente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.message).to.eql(\r\n    \"Usuario registrado correctamente\"\r\n  );\r\n\r\n  pm.expect(json.data.userId).to.exist;\r\n  pm.expect(json.data.email).to.eql(\r\n    \"scarlett.postman@correo.com\"\r\n  );\r\n});\r\n\r\npm.test(\"La contraseña no aparece en la respuesta\", function () {\r\n  const responseText = pm.response.text();\r\n\r\n  pm.expect(responseText).to.not.include(\"password_digest\");\r\n  pm.expect(responseText).to.not.include(\"Clave123*\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"Scarlett\",\r\n  \"lastName\": \"Jarrin\",\r\n  \"email\": \"scarlett.postman@correo.com\",\r\n  \"password\": \"Clave123*\",\r\n  \"passwordConfirmation\": \"Clave123*\",\r\n  \"address\": \"Quito\",\r\n  \"phoneNumber\": \"0991112233\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "02 - Login user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Inicio de sesión correcto\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.message).to.eql(\r\n    \"Inicio de sesión correcto\"\r\n  );\r\n\r\n  pm.expect(json.token).to.exist;\r\n  pm.expect(json.user.userId).to.exist;\r\n});\r\n\r\npm.test(\"La contraseña no aparece en la respuesta\", function () {\r\n  const responseText = pm.response.text();\r\n\r\n  pm.expect(responseText).to.not.include(\"password_digest\");\r\n  pm.expect(responseText).to.not.include(\"Clave123*\");\r\n});\r\n\r\nconst json = pm.response.json();\r\n\r\npm.collectionVariables.set(\"token\", json.token);\r\npm.collectionVariables.set(\"user_id\", json.user.userId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"scarlett.postman@correo.com\",\r\n  \"password\": \"Clave123*\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "03 - Get user profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Devuelve el perfil del usuario autenticado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const expectedUserId = Number(\r\n    pm.collectionVariables.get(\"user_id\")\r\n  );\r\n\r\n  pm.expect(json.data.userId).to.eql(expectedUserId);\r\n  pm.expect(json.data.email).to.exist;\r\n});\r\n\r\npm.test(\"No expone la contraseña\", function () {\r\n  const responseText = pm.response.text();\r\n\r\n  pm.expect(responseText).to.not.include(\"password\");\r\n  pm.expect(responseText).to.not.include(\"password_digest\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "04 - Update user profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Usuario actualizado correctamente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.message).to.eql(\r\n    \"Usuario actualizado correctamente\"\r\n  );\r\n\r\n  pm.expect(json.data.firstName).to.eql(\r\n    \"Scarlett Maria\"\r\n  );\r\n\r\n  pm.expect(json.data.address).to.eql(\r\n    \"Quito norte\"\r\n  );\r\n\r\n  pm.expect(json.data.phoneNumber).to.eql(\r\n    \"0987654321\"\r\n  );\r\n});\r\n\r\npm.test(\"No expone la contraseña\", function () {\r\n  const responseText = pm.response.text();\r\n\r\n  pm.expect(responseText).to.not.include(\"password_digest\");\r\n  pm.expect(responseText).to.not.include(\"Clave123*\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"Scarlett Maria\",\r\n  \"address\": \"Quito norte\",\r\n  \"phoneNumber\": \"0987654321\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "05 - Get profile without token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 401\", function () {\r\n  pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Rechaza la solicitud sin token\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"No autorizado\"\r\n  );\r\n\r\n  pm.expect(json.error.details).to.include(\r\n    \"Authorization\"\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "06 - Get profile with invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 401\", function () {\r\n  pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Detecta un token inválido\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"No autorizado\"\r\n  );\r\n\r\n  pm.expect(json.error.details).to.eql(\r\n    \"El token es inválido\"\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "token-invalido",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "07 - Register temporary user",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 201\", function () {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Usuario temporal registrado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.data.userId).to.exist;\r\n  pm.expect(json.data.email).to.eql(\r\n    \"temporal.postman@correo.com\"\r\n  );\r\n\r\n  pm.collectionVariables.set(\r\n    \"temp_user_id\",\r\n    json.data.userId\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"Usuario\",\r\n  \"lastName\": \"Temporal\",\r\n  \"email\": \"temporal.postman@correo.com\",\r\n  \"password\": \"Temporal123*\",\r\n  \"passwordConfirmation\": \"Temporal123*\",\r\n  \"address\": \"Quito\",\r\n  \"phoneNumber\": \"0981111111\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "08 - Login temporary user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"temporal.postman@correo.com\",\r\n  \"password\": \"Temporal123*\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "09 - Delete temporary user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 204\", function () {\r\n  pm.response.to.have.status(204);\r\n});\r\n\r\npm.test(\"La respuesta no tiene contenido\", function () {\r\n  pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{temp_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/{{temp_user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "{{temp_user_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Receipts",
+      "item": [
+        {
+          "name": "01 - Create receipt test product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 201\", function () {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Producto creado correctamente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.data.id).to.exist;\r\n  pm.expect(json.data.name).to.eql(\r\n    \"Producto de prueba para recibos\"\r\n  );\r\n  pm.expect(Number(json.data.price)).to.eql(12.5);\r\n  pm.expect(json.data.stock).to.eql(10);\r\n});\r\n\r\nif (pm.response.code === 201) {\r\n  const json = pm.response.json();\r\n\r\n  pm.collectionVariables.set(\r\n    \"receipt_product_id\",\r\n    String(json.data.id)\r\n  );\r\n\r\n  pm.collectionVariables.set(\r\n    \"receipt_product_price\",\r\n    String(json.data.price)\r\n  );\r\n\r\n  pm.collectionVariables.set(\r\n    \"receipt_product_initial_stock\",\r\n    String(json.data.stock)\r\n  );\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"product\": {\r\n    \"name\": \"Producto de prueba para recibos\",\r\n    \"description\": \"Producto creado desde Postman para probar compras.\",\r\n    \"price\": 12.50,\r\n    \"stock\": 10\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "02 - Create receipt",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 201\", function () {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Recibo creado correctamente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.message).to.eql(\r\n    \"Recibo creado correctamente\"\r\n  );\r\n\r\n  pm.expect(json.data.receiptId).to.exist;\r\n\r\n  pm.expect(json.data.userId).to.eql(\r\n    Number(pm.collectionVariables.get(\"user_id\"))\r\n  );\r\n\r\n  pm.expect(json.data.amountOfItems).to.eql(2);\r\n});\r\n\r\npm.test(\"El total fue calculado por el backend\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const productPrice = Number(\r\n    pm.collectionVariables.get(\r\n      \"receipt_product_price\"\r\n    )\r\n  );\r\n\r\n  const expectedTotal = productPrice * 2;\r\n\r\n  pm.expect(Number(json.data.total)).to.eql(\r\n    expectedTotal\r\n  );\r\n\r\n  pm.expect(Number(json.data.total)).to.not.eql(\r\n    0.01\r\n  );\r\n});\r\n\r\npm.test(\"El detalle contiene precio y subtotal correctos\", function () {\r\n  const json = pm.response.json();\r\n  const item = json.data.items[0];\r\n\r\n  const productId = Number(\r\n    pm.collectionVariables.get(\r\n      \"receipt_product_id\"\r\n    )\r\n  );\r\n\r\n  const productPrice = Number(\r\n    pm.collectionVariables.get(\r\n      \"receipt_product_price\"\r\n    )\r\n  );\r\n\r\n  pm.expect(item.productId).to.eql(productId);\r\n  pm.expect(item.quantity).to.eql(2);\r\n  pm.expect(Number(item.unitPrice)).to.eql(\r\n    productPrice\r\n  );\r\n  pm.expect(Number(item.subtotal)).to.eql(\r\n    productPrice * 2\r\n  );\r\n});\r\n\r\nif (pm.response.code === 201) {\r\n  const json = pm.response.json();\r\n\r\n  pm.collectionVariables.set(\r\n    \"receipt_id\",\r\n    String(json.data.receiptId)\r\n  );\r\n\r\n  pm.collectionVariables.set(\r\n    \"receipt_total\",\r\n    String(json.data.total)\r\n  );\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 999999,\r\n  \"total\": \"0.01\",\r\n  \"items\": [\r\n    {\r\n      \"productId\": {{receipt_product_id}},\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "03 - Verify stock decreased",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"El stock fue descontado automáticamente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const initialStock = Number(\r\n    pm.collectionVariables.get(\r\n      \"receipt_product_initial_stock\"\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.id).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"receipt_product_id\"\r\n      )\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.stock).to.eql(\r\n    initialStock - 2\r\n  );\r\n});\r\n\r\nif (pm.response.code === 200) {\r\n  const json = pm.response.json();\r\n\r\n  pm.collectionVariables.set(\r\n    \"stock_after_purchase\",\r\n    String(json.data.stock)\r\n  );\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/{{receipt_product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{receipt_product_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "04 - Get receipt by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Consulta el recibo creado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.data.receiptId).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"receipt_id\"\r\n      )\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.userId).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"user_id\"\r\n      )\r\n    )\r\n  );\r\n\r\n  pm.expect(Number(json.data.total)).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"receipt_total\"\r\n      )\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.items).to.be.an(\"array\");\r\n  pm.expect(json.data.items.length).to.eql(1);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/receipts/{{receipt_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts",
+                "{{receipt_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "05 - List my receipts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Devuelve una lista de recibos\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.data).to.be.an(\"array\");\r\n});\r\n\r\npm.test(\"La lista contiene el recibo creado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const receiptId = Number(\r\n    pm.collectionVariables.get(\"receipt_id\")\r\n  );\r\n\r\n  const receiptIds = json.data.map(function (receipt) {\r\n    return receipt.receiptId;\r\n  });\r\n\r\n  pm.expect(receiptIds).to.include(receiptId);\r\n});\r\n\r\npm.test(\"Los recibos pertenecen al usuario autenticado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const userId = Number(\r\n    pm.collectionVariables.get(\"user_id\")\r\n  );\r\n\r\n  json.data.forEach(function (receipt) {\r\n    pm.expect(receipt.userId).to.eql(userId);\r\n  });\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "06 - List receipts by user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Devuelve los recibos del usuario indicado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const userId = Number(\r\n    pm.collectionVariables.get(\"user_id\")\r\n  );\r\n\r\n  pm.expect(json.data).to.be.an(\"array\");\r\n\r\n  json.data.forEach(function (receipt) {\r\n    pm.expect(receipt.userId).to.eql(userId);\r\n  });\r\n});\r\n\r\npm.test(\"Contiene el recibo creado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const receiptId = Number(\r\n    pm.collectionVariables.get(\"receipt_id\")\r\n  );\r\n\r\n  const receiptIds = json.data.map(function (receipt) {\r\n    return receipt.receiptId;\r\n  });\r\n\r\n  pm.expect(receiptIds).to.include(receiptId);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/receipts/user/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts",
+                "user",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "07 - List receipts without token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 401\", function () {\r\n  pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Rechaza la solicitud sin JWT\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"No autorizado\"\r\n  );\r\n\r\n  pm.expect(json.error.details).to.include(\r\n    \"Authorization\"\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "07 - List receipts without token",
+              "host": [
+                "07 - List receipts without token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "08 - Create receipt with empty cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 422\", function () {\r\n  pm.response.to.have.status(422);\r\n});\r\n\r\npm.test(\"Rechaza un carrito vacío\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"Datos inválidos\"\r\n  );\r\n\r\n  pm.expect(json.error.details.items).to.be.an(\r\n    \"array\"\r\n  );\r\n\r\n  pm.expect(json.error.details.items[0]).to.include(\r\n    \"al menos un producto\"\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "09 - Create receipt with insufficient stock",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 422\", function () {\r\n  pm.response.to.have.status(422);\r\n});\r\n\r\npm.test(\"Rechaza la compra por stock insuficiente\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"Stock insuficiente\"\r\n  );\r\n\r\n  pm.expect(json.error.details.productId).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"receipt_product_id\"\r\n      )\r\n    )\r\n  );\r\n\r\n  pm.expect(json.error.details.requestedQuantity).to.eql(\r\n    999\r\n  );\r\n\r\n  pm.expect(json.error.details.availableStock).to.eql(\r\n    Number(\r\n      pm.collectionVariables.get(\r\n        \"stock_after_purchase\"\r\n      )\r\n    )\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n      \"productId\": {{receipt_product_id}},\r\n      \"quantity\": 999\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/receipts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10 - Verify stock unchanged after error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"El stock no cambió después del error\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const stockAfterPurchase = Number(\r\n    pm.collectionVariables.get(\r\n      \"stock_after_purchase\"\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.stock).to.eql(\r\n    stockAfterPurchase\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/{{receipt_product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{receipt_product_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11 - Delete receipt",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 204\", function () {\r\n  pm.response.to.have.status(204);\r\n});\r\n\r\npm.test(\"La respuesta no contiene cuerpo\", function () {\r\n  pm.expect(pm.response.text()).to.eql(\"\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/receipts/{{receipt_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts",
+                "{{receipt_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12 - Verify stock restored",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 200\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"El stock fue restaurado al eliminar el recibo\", function () {\r\n  const json = pm.response.json();\r\n\r\n  const initialStock = Number(\r\n    pm.collectionVariables.get(\r\n      \"receipt_product_initial_stock\"\r\n    )\r\n  );\r\n\r\n  pm.expect(json.data.stock).to.eql(\r\n    initialStock\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/{{receipt_product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{receipt_product_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "13 - Get deleted receipt",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Estado HTTP 404\", function () {\r\n  pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"El recibo fue eliminado\", function () {\r\n  const json = pm.response.json();\r\n\r\n  pm.expect(json.error.message).to.eql(\r\n    \"Recurso no encontrado\"\r\n  );\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/receipts/{{receipt_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "receipts",
+                "{{receipt_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "category_id",
+      "value": "1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": ""
+    },
+    {
+      "key": "temp_user_id",
+      "value": ""
+    },
+    {
+      "key": "temp_token",
+      "value": ""
+    },
+    {
+      "key": "receipt_product_id",
+      "value": ""
+    },
+    {
+      "key": "receipt_product_price",
+      "value": ""
+    },
+    {
+      "key": "receipt_product_initial_stock",
+      "value": ""
+    },
+    {
+      "key": "receipt_id",
+      "value": ""
+    },
+    {
+      "key": "receipt_total",
+      "value": ""
+    },
+    {
+      "key": "stock_after_purchase",
+      "value": ""
     }
   ]
 }
