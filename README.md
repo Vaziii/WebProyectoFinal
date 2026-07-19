@@ -19,7 +19,6 @@ API REST de e-commerce desarrollada con Ruby on Rails API, PostgreSQL, JWT y BCr
 | OpenAPI | `docs/openapi.yaml` |
 | Postman | `postman/Grupo7_Ecommerce_API.postman_collection.json` |
 | Frontend | `FrontendProyecto` |
-| Script SQL de base de datos | `db/database.sql` |
 
 ## Tecnologias
 
@@ -374,20 +373,12 @@ Casos manejados:
 
 ## Base de Datos
 
-La base se puede construir de dos formas:
-
-1. Con migraciones Rails:
+La base se construye con las migraciones de Rails:
 
 ```bash
 bundle exec rails db:create
 bundle exec rails db:migrate
 bundle exec rails db:seed
-```
-
-2. Con el script SQL incluido:
-
-```text
-db/database.sql
 ```
 
 El archivo `db/schema.rb` representa el estado actual generado por Rails.
