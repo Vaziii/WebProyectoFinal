@@ -408,20 +408,6 @@ La suite cubre:
 - Postman: `postman/Grupo7_Ecommerce_API.postman_collection.json`
 - Evidencias: `docs/evidencias`
 
-## Flujo Sugerido para Sustentacion
-
-1. Levantar PostgreSQL.
-2. Ejecutar backend Rails en `localhost:3000`.
-3. Ejecutar frontend React en `localhost:5173`.
-4. Iniciar sesion como admin.
-5. Crear una categoria.
-6. Crear un producto.
-7. Ver productos desde la tienda.
-8. Registrar o iniciar sesion como usuario.
-9. Agregar productos al carrito.
-10. Crear una compra.
-11. Ver el recibo generado.
-12. Confirmar que el stock bajo automaticamente.
 
 ## Repositorio
 

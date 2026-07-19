@@ -34,7 +34,7 @@ function App() {
       <header className="app-header">
         <div>
           <p className="eyebrow">Grupo 7 Ecommerce</p>
-          <h1>Tienda y administracion</h1>
+          <h1>Tienda</h1>
         </div>
 
         <nav className="nav-tabs" aria-label="Secciones">
